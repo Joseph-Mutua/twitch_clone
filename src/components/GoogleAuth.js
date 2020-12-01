@@ -8,13 +8,16 @@ class GoogleAuth extends Component {
       window.gapi.client
         .init({
           clientId:
-            "532681052447 - onl7stemqim1hagoqvfdvrpe9ts5s7sq.apps.googleusercontent.com;",
+            "532681052447-k20b84fefbi9jocmtqicku8dcdghd7ne.apps.googleusercontent.com",
           scope: "email",
         })
         .then(() => {
           this.auth = window.gapi.auth2.getAuthInstance();
           this.setState({ isSignedIn: this.auth.isSignedIn.get() });
           this.auth.isSignedIn.listen(this.onAuthChange);
+        })
+        .catch((e) => {
+          console.log(e);
         });
     });
   }
@@ -25,11 +28,21 @@ class GoogleAuth extends Component {
 
   renderAuthButton() {
     if (this.state.isSignedIn === null) {
-      return <div>I dont know if we're signed in</div>;
+      return null;
     } else if (this.state.isSignedIn) {
-      return <div>I am Signed In!</div>;
+      return (
+        <button className="ui red google button">
+          <i className="google icon" />
+          Sign Out
+        </button>
+      );
     } else {
-      return <div>I am not Signed in!</div>;
+      return (
+        <button className="ui red button">
+          <i className="google icon" />
+          Sign in with google
+        </button>
+      );
     }
   }
 
